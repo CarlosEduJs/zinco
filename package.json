@@ -1,0 +1,26 @@
+{
+  "name": "zinco",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "check": "oxlint && oxfmt --write"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@zinco/config": "workspace:*",
+    "turbo": "^2.8.12",
+    "oxlint": "^1.41.0",
+    "oxfmt": "^0.26.0"
+  }
+}

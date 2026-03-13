@@ -1,0 +1,3 @@
+{
+  "extends": "@zinco/config/tsconfig.base.json",
+}
