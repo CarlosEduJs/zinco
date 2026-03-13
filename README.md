@@ -13,6 +13,7 @@ For a deep dive into the project, check out our documentation:
 - [**The Zinco Idea**](docs/ideia.md) - Why we built Zinco and the problems it solves.
 - [**Technical Architecture**](docs/arch.md) - Detailed breakdown of the Zig core, TS layer, and IPC.
 - [**Security Measures**](docs/security.md) - Comprehensive security measures for Zinco.
+- [**Security Policy**](SECURITY.md) - Instructions for reporting vulnerabilities.
 - [**Project Roadmap**](docs/roadmap.md) - Our journey from MVP to distributed power.
 
 ---
