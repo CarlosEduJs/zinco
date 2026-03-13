@@ -29,6 +29,7 @@ pub const Server = struct {
     pub fn run(self: *Server) !void {
         while (true) {
             const connection = try self.uds.accept();
+            std.log.info("ipc connection accepted", .{});
             self.handler.handleConnection(connection) catch |err| {
                 std.log.err("connection error: {s}", .{@errorName(err)});
             };

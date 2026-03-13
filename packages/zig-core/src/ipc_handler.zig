@@ -1,5 +1,6 @@
 const std = @import("std");
 const protocol = @import("ipc_protocol.zig");
+const types = @import("ipc_types.zig");
 
 pub const Handler = struct {
     allocator: std.mem.Allocator,
@@ -32,9 +33,9 @@ pub const Handler = struct {
             const message_type = @as(protocol.MessageType, @enumFromInt(header.message_type));
             switch (message_type) {
                 .ping => try self.sendAck(writer),
-                .trigger_job => try self.sendAck(writer),
-                .job_result => try self.sendAck(writer),
-                .log_entry => try self.sendAck(writer),
+                .trigger_job => try self.handleTriggerJob(payload, writer),
+                .job_result => try self.handleJobResult(payload, writer),
+                .log_entry => try self.handleLogEntry(payload, writer),
                 .ack => {},
                 else => return error.UnknownMessageType,
             }
@@ -49,4 +50,32 @@ pub const Handler = struct {
         };
         try protocol.writeHeader(writer, header);
     }
+
+    fn handleTriggerJob(self: *Handler, payload: []const u8, writer: anytype) !void {
+        try parseJsonPayload(types.TriggerJobPayload, self.allocator, payload);
+        std.log.info("ipc trigger_job received", .{});
+        try self.sendAck(writer);
+    }
+
+    fn handleJobResult(self: *Handler, payload: []const u8, writer: anytype) !void {
+        try parseJsonPayload(types.JobResultPayload, self.allocator, payload);
+        std.log.info("ipc job_result received", .{});
+        try self.sendAck(writer);
+    }
+
+    fn handleLogEntry(self: *Handler, payload: []const u8, writer: anytype) !void {
+        try parseJsonPayload(types.LogEntryPayload, self.allocator, payload);
+        std.log.info("ipc log_entry received", .{});
+        try self.sendAck(writer);
+    }
 };
+
+fn parseJsonPayload(comptime T: type, allocator: std.mem.Allocator, payload: []const u8) !void {
+    var arena = std.heap.ArenaAllocator.init(allocator);
+    defer arena.deinit();
+    var parsed = try std.json.parseFromSlice(T, arena.allocator(), payload, .{
+        .allocate = .alloc_if_needed,
+        .ignore_unknown_fields = true,
+    });
+    defer parsed.deinit();
+}
