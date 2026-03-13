@@ -17,7 +17,7 @@ We take the security of Zinco seriously. If you discover a security vulnerabilit
 
 ### How to Report
 
-Please send an email to security@zinco.dev (example address) with a description of the vulnerability, steps to reproduce it, and any potential impact.
+Please create a security issue on GitHub with a description of the vulnerability, steps to reproduce it, and any potential impact.
 
 ### Our Response
 
