@@ -49,3 +49,8 @@ coverage
 .cache
 tmp
 temp
+
+# Zig
+**/.zig-cache/
+**/zig-out/
+**/zig-out-*/  # caso haja variações de build
